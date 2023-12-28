@@ -1,6 +1,9 @@
 import os
 
-restaurantes = ['Pizza', 'Sushi', 'Churrasco']
+restaurantes = [{'nome': 'Praça', 'categoria': 'Japonesa', 'ativo':False},
+                {'nome': 'Pizza Suprema', 'categoria': 'Italian', 'ativo':True}, 
+                {'nome': 'Cantina', 'categoria': 'Italiano', 'ativo':False}
+]
 
 def exibir_nome_app():
     print("""
@@ -25,7 +28,7 @@ def menu_opcao():
         elif opcao == 2:
             listar_restaurantes()
         elif opcao == 3:
-            print("Ativar Restaurante")
+            alterar_estado_restaurante()
         elif opcao == 4:
             finalizar_app()
         else:
@@ -54,8 +57,30 @@ def cadastrar_restaurante():
 def listar_restaurantes():
     os.system('cls')
     print("*** LISTA DE RESTAURANTES ***")
+    print(f'{'Nome do Restaurante'.ljust(22)} || {'Categoria'.ljust(20)} || {'Status'}')
     for restaurante in restaurantes:
-        print(f'.{restaurante}')
+        nome_do_restaurante = restaurante['nome']
+        categoria = restaurante['categoria']
+        ativo_restaurante = 'ativado' if restaurante['ativo'] else 'desativado'
+        print(f'- {nome_do_restaurante.ljust(20)} || {categoria.ljust(20)} || {ativo_restaurante}')
+    input("Pressione qualquer tecla para sair...")
+    main()
+
+def alterar_estado_restaurante():
+    print('*** Alterando estado do restaurante ***')
+    nome_restaurante = input('Digite o nome do restaurante que deseja alterar o estado: ')
+    restaurante_encontrado = False
+    for restaurante in restaurantes:
+        if nome_restaurante == restaurante['nome']:
+            restaurante_encontrado = True
+            restaurante['ativo'] = not restaurante['ativo']
+            mensagem = f'O restaurante {nome_restaurante} foi ativado com sucesso' if restaurante['ativo'] else f'O restaurante {nome_restaurante} foi desativado com sucesso'
+            print(mensagem)
+    if not restaurante_encontrado:
+        print('O restaurante não foi encontrado!') 
+
+
+    
     input("Pressione qualquer tecla para sair...")
     main()
 
